@@ -1,13 +1,22 @@
-# كود fetcher.py المحدث
-playlist_content = """#EXTM3U
-#EXTINF:-1,⚽ beIN MAX 1 (8K)
-http://ugeen.live:8080/Ugeen_VIPNQms83/LcKgtu/4540
-#EXTINF:-1,⚽ beIN MAX 2 (8K)
-http://ugeen.live:8080/Ugeen_VIPNQms83/LcKgtu/4541
-#EXTINF:-1,⚽ beIN SPORTS 1 HD
-http://ugeen.live:8080/Ugeen_VIPNQms83/LcKgtu/46
-"""
+import json
+import re
 
-with open("playlist.m3u", "w", encoding="utf-8") as f:
-    f.write(playlist_content)
-print("تم تحديث الملف بنجاح!")
+def convert_m3u_to_json():
+    with open("playlist.m3u", "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # استخراج الأسماء والروابط
+    channels = []
+    # البحث عن نمط #EXTINF والسطر الذي يليه
+    matches = re.findall(r'#EXTINF:-1,(.*?)\n(http.*?://.*?)\n', content)
+    
+    for name, url in matches:
+        channels.append({"name": name.strip(), "url": url.strip()})
+
+    # حفظ النتيجة في ملف JSON
+    with open("links.json", "w", encoding="utf-8") as f:
+        json.dump(channels, f, ensure_ascii=False, indent=4)
+    print("تم تحويل الروابط إلى صيغة JSON بنجاح!")
+
+if __name__ == "__main__":
+    convert_m3u_to_json()
