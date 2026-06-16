@@ -1,22 +1,24 @@
 import requests
+import random
 
-# رابط الموقع الذي تستخرج منه البيانات
-URL = "https://ugeen.live/renew.html" 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-}
+# 1. قائمة البروكسيات (استبدلها ببروكسيات حقيقية)
+proxies_list = [
+    {"http": "http://user:pass@ip:port"},
+    # أضف المزيد هنا
+]
 
-def fetch_links():
+def fetch_data():
+    url = "https://ugeen.live/renew.html"
+    proxy = random.choice(proxies_list) # اختيار عشوائي للبروكسي
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    
     try:
-        # إرسال طلب للموقع
-        response = requests.get(URL, headers=HEADERS)
+        response = requests.get(url, headers=headers, proxies=proxy, timeout=10)
         if response.status_code == 200:
-            # هنا ستضع الكود الخاص باستخراج النصوص (Regex)
-            # بعد الاستخراج، نقوم بكتابة الروابط في ملف m3u
-            with open("playlist.m3u", "w") as f:
-                f.write(response.text) # مثال بسيط
-            print("تم تحديث القائمة بنجاح")
+            # هنا ستكتب منطق استخراج الروابط (Regex)
+            # ثم حفظ النتيجة في playlist.m3u
+            print("تم جلب البيانات بنجاح")
     except Exception as e:
-        print(f"حدث خطأ: {e}")
+        print(f"فشل الاتصال: {e}")
 
-fetch_links()
+fetch_data()
