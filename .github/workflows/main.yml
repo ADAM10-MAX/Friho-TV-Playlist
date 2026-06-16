@@ -1,9 +1,8 @@
 name: Auto Update Playlist
 on:
   schedule:
-    - cron: '0 */3 * * *' # يعمل كل 3 ساعات
+    - cron: '0 0 * * *' # هذا يعني أن السكربت سيعمل كل يوم في منتصف الليل (00:00)
   workflow_dispatch:
-
 jobs:
   update:
     runs-on: ubuntu-latest
